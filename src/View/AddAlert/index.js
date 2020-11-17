@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, Button, Space } from 'antd';
+import { Button } from 'antd';
 import './index.css';
 import 'rodal/lib/rodal.css';
 import Rodal from 'rodal';
-// import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import videoBg from '../../assets/image/video.mp4';
+import { LoadingOutlined } from '@ant-design/icons';
 
 class AnimationCircle extends React.Component {
     constructor(props) {
@@ -45,6 +46,14 @@ class AnimationCircle extends React.Component {
     render() {
         return (
             <div className='container'>
+                <video autoPlay="autoplay" loop="loop" muted className='video' >
+                    <source src={videoBg} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+                <p>dkjfhjk</p>
+                <div className="div-loading">
+                    <LoadingOutlined className="loading-icon"/>
+                </div>
                 <Rodal
                     height = {200}
                     width = {400}
@@ -61,21 +70,21 @@ class AnimationCircle extends React.Component {
                     </div>
                 </Rodal>
 
-                 <Rodal
-                    height = {200}
-                    width = {400}
-                    visible={this.state.visibleSecond}
-                    showCloseButton = {false}
-                    animation='slideUp'
-                    duration ='1500'
-                    customStyles = {{top: '60vh', display: 'flex'}}
-                >
-                    <div>Content Second</div>
-                    <div className="div-button">
-                        <Button className="mr15" onClick={this.showThird.bind(this)}>Cancel</Button>
-                        <Button type="primary" onClick={this.showThird}>Next</Button>
-                    </div>
-                </Rodal>
+                <Rodal
+                height = {200}
+                width = {400}
+                visible={this.state.visibleSecond}
+                showCloseButton = {false}
+                animation='slideUp'
+                duration ='1500'
+                customStyles = {{top: '60vh', display: 'flex'}}
+            >
+                <div>Content Second</div>
+                <div className="div-button">
+                    <Button className="mr15" onClick={this.showThird.bind(this)}>Cancel</Button>
+                    <Button type="primary" onClick={this.showThird}>Next</Button>
+                </div>
+            </Rodal>
 
                 <Rodal
                     height = {200}

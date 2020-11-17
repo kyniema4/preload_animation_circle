@@ -1,18 +1,39 @@
   body {
-    background: url('../../assets/image/video.gif') no-repeat top center/cover;
+    /* background: url('../../assets/image/video.gif') no-repeat top center/cover; */
 
   }
 
   .container {
-    position: relative;
+    /* position: relative; */
     height: 100%;
   }
 
   .video {
-    width: 100%;
     height: auto;
+    width: 100%;
+    float: left;
+    top: 0;
+    padding: unset;
+    position: fixed;
   }
   
+  .div-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+  }
+
+  .div-loading > span {
+   color: #d90d7a;
+  }
+
+  .loading-icon svg {
+    width: 45px;
+    height: 45px;
+  }
+
   .div-button {
     display: flex;
     flex-direction: row;
