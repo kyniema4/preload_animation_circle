@@ -1,0 +1,26 @@
+  body {
+    background: url('../../assets/image/video.gif') no-repeat top center/cover;
+
+  }
+
+  .container {
+    position: relative;
+    height: 100%;
+  }
+
+  .video {
+    width: 100%;
+    height: auto;
+  }
+  
+  .div-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: auto;
+    flex: 1;
+  }
+
+  .mr15 {
+    margin-right: 15px;
+  }
