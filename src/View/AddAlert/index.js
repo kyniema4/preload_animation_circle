@@ -66,9 +66,9 @@ class AnimationCircle extends React.Component {
         {
             if(array[i].data.length)
             {
-                let dataValue = array[i].data.find(item => item.dataKey == "Data")
-                let voiceValue = array[i].data.find(item => item.dataKey == "Voice")
-                let orderValue = array[i].data.find(item => item.dataKey == "Order")
+                let dataValue = array[i].data.find(item => item.dataKey === "Data")
+                let voiceValue = array[i].data.find(item => item.dataKey === "Voice")
+                let orderValue = array[i].data.find(item => item.dataKey === "Order")
 
                 if(dataValue || voiceValue || orderValue)
                 {
@@ -76,11 +76,12 @@ class AnimationCircle extends React.Component {
                     this.state.arrayTypeData.forEach(type =>{
                         if(dataValue.dataVal[type.name])
                         {
-                            typeData = type.value
+                            typeData = type
                         }
                     })
                     this.setState({currentItem: array[i], currentIndex:index, 
-                        dataValue, voiceValue, typeData, orderValue, visible:true})
+                        dataValue : dataValue.dataVal[typeData.name], voiceValue : voiceValue.dataVal
+                        ,orderValue: orderValue.dataVal, typeData, visible:true})
                     break;
                 }
             }
@@ -121,8 +122,13 @@ class AnimationCircle extends React.Component {
 
     render() {
 
-        const { listItem, currentIndex, visible, currentItem, dataValue, voiceValue, orderValue } = this.state
-        console.log(listItem)
+        const { visible, currentItem, dataValue, voiceValue, orderValue } = this.state
+        console.log(currentItem)
+        if(dataValue)
+        {
+            console.log(dataValue)
+            console.log(Array.isArray(dataValue.title))
+        }
         return (
             <div className='container'>
                 <video autoPlay="autoplay" loop="loop" muted className='video' >
@@ -133,21 +139,27 @@ class AnimationCircle extends React.Component {
                     <LoadingOutlined className="loading-icon" />
                 </div>
                 
-                <Rodal
-                height={200}
-                width={400}
-                visible={visible}
-                showCloseButton={false}
-                animation='slideUp'
-                duration ='1500'
-                >
-                
-                <p className="content-modal">Choose your language</p>
-                <div className="div-button">
-                    <Button className="mr15 left-btn" onClick={() => this.closeModal()}>English</Button>
-                    <Button className="right-btn" onClick={() => this.closeModal()}>Francais</Button>
-                </div>
-                </Rodal>
+                {currentItem ? (
+                    <Rodal
+                    height={200}
+                    width={400}
+                    visible={visible}
+                    showCloseButton={false}
+                    animation='slideUp'
+                    duration ='1500'
+                    >
+
+                    {Array.isArray(dataValue.title) ? (
+                        <p className="content-modal">{dataValue.title[0]}</p>
+                    ) :(
+                        <p className="content-modal">{dataValue.title}</p>
+                    )}
+                    <div className="div-button">
+                        <Button className="mr15 left-btn" onClick={() => this.closeModal()}>English</Button>
+                        <Button className="right-btn" onClick={() => this.closeModal()}>Francais</Button>
+                    </div>
+                    </Rodal>
+                ): ''}
 
                 {/* <Rodal
                     height={200}
