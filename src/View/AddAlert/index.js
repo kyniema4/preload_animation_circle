@@ -5,7 +5,6 @@ import 'rodal/lib/rodal.css';
 import Rodal from 'rodal';
 import videoBg from '../../assets/image/video.mp4';
 import { LoadingOutlined } from '@ant-design/icons';
-import data from '../../doc.json'
 
 class AnimationCircle extends React.Component {
     constructor(props) {
@@ -14,12 +13,24 @@ class AnimationCircle extends React.Component {
             visibleFirst: false,
             visibleSecond: false,
             visibleThird: false,
-            listItem:data.data.items
         };
     }
     componentDidMount() {
-        console.log(this.state.listItem)
+        this.getListData()
         setTimeout(this.showFirst, 10000);
+    }
+
+    getListData() {
+        fetch('http://localhost:3000/data',{
+            method: 'GET',
+        }).then(res=>{
+            return res.json()
+        }).then(res=>{
+            this.setState({listItem: res.items})
+            console.log(this.state.listItem)
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
     showFirst = () => {
