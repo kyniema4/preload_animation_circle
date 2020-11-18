@@ -10,6 +10,7 @@ class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            visibleLoading:false,
             visible:false,
             visibleFirst: true,
             visibleSecond: false,
@@ -91,7 +92,7 @@ class AnimationCircle extends React.Component {
 
                     this.setState({currentItem: array[i], currentIndex:index, 
                         dataValue : dataValue.dataVal[typeData.name], voiceValue : voiceValue.dataVal
-                        ,orderValue: orderValue.dataVal, typeData, visible:true})
+                        ,orderValue: orderValue.dataVal, typeData, visible:true, visibleLoading:false})
                     break;
                 }
             }
@@ -106,7 +107,7 @@ class AnimationCircle extends React.Component {
             document.getElementById('audio').pause()
         }
 
-        this.setState({visible:false})
+        this.setState({visible:false, visibleLoading:true})
         setTimeout(() => {
             this.setData(this.state.listItem, this.state.currentIndex + 1)
         }, 500);
@@ -127,16 +128,18 @@ class AnimationCircle extends React.Component {
 
     render() {
 
-        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData } = this.state
+        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData, visibleLoading } = this.state
         return (
             <div className='container'>
                 <video autoPlay="autoplay"  loop="loop" muted className='video' >
                     <source src={videoBg} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-                <div className="div-loading">
-                    <LoadingOutlined className="loading-icon" />
-                </div>
+                {visibleLoading ? (
+                    <div className="div-loading">
+                        <LoadingOutlined className="loading-icon" />
+                    </div>
+                ):''}
 
                 <Rodal
                     height={200}
@@ -169,7 +172,7 @@ class AnimationCircle extends React.Component {
                         ):''}
 
                         {dataValue.action_type === "manual" && typeData.value === 2 && dataValue.answer && dataValue.answer.map((item, index)=>(
-                            index%2 == 0 ? (
+                            index%2 === 0 ? (
                                 <Button key={index} className="mr15 left-btn" onClick={() => this.nextModal()}>{item.field}</Button>
                                 ):(
                                 <Button key={index} className="mr15 right-btn" onClick={() => this.nextModal()}>{item.field}</Button>
