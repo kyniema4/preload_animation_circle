@@ -39,7 +39,6 @@ class AnimationCircle extends React.Component {
 
     getListData() {
         this.setState({listItem: doc.data.items})
-        
         // fetch('http://localhost:3000/data',{
         //     method: 'GET',
         // }).then(res=>{
