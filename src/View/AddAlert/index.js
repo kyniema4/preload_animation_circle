@@ -16,7 +16,7 @@ class AnimationCircle extends React.Component {
         };
     }
     componentDidMount(){
-        setTimeout(this.showFirst, 10000);
+        setTimeout(this.showFirst, 10);
     }
 
     showFirst = () => {
@@ -62,6 +62,7 @@ class AnimationCircle extends React.Component {
                     animation='slideUp'
                     duration ='1500'
                     customStyles = {{top: '60vh', display: 'flex'}}
+
                 >
                     <div>Content First</div>
                     <div className="div-button">
