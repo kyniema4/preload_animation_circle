@@ -53,7 +53,6 @@ class AnimationCircle extends React.Component {
                     <source src={videoBg} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-                <p>dkjfhjk</p>
                 <div className="div-loading">
                     <LoadingOutlined className="loading-icon" />
                 </div>
@@ -64,47 +63,44 @@ class AnimationCircle extends React.Component {
                     visible={this.state.visibleFirst}
                     showCloseButton={false}
                     animation='slideUp'
-                    duration='1500'
-                    customStyles={{ top: '60vh', display: 'flex' }}
+                    duration ='1500'
                 >
-                    <div>Content First</div>
+                    <p className="content-modal">Choose your language</p>
                     <div className="div-button">
-                        <Button className="mr15" onClick={this.showSecond.bind(this)}>Cancel</Button>
-                        <Button type="primary" onClick={this.showSecond}>Next</Button>
+                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
+                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
                     </div>
                 </Rodal>
 
                 <Rodal
-                    height={200}
-                    width={400}
+                    height = {200}
+                    width = {400}
                     visible={this.state.visibleSecond}
-                    showCloseButton={false}
+                    showCloseButton = {false}
                     animation='slideUp'
-                    duration='1500'
-                    customStyles={{ top: '60vh', display: 'flex' }}
+                    duration ='1500'
                 >
-                    <div>Content Second</div>
+                    <p className="content-modal">Choose your language second</p>
                     <div className="div-button">
-                        <Button className="mr15" onClick={this.showThird.bind(this)}>Cancel</Button>
-                        <Button type="primary" onClick={this.showThird}>Next</Button>
+                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
+                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
                     </div>
                 </Rodal>
 
                 <Rodal
-                    height={200}
-                    width={400}
+                    height = {200}
+                    width = {400}
                     visible={this.state.visibleThird}
-                    showCloseButton={false}
+                    showCloseButton = {false}
                     animation='slideUp'
-                    duration='1500'
-                    customStyles={{ top: '60vh', display: 'flex' }}
-                >
-                    <div>Content Third</div>
-                    <div className="div-button">
-                        <Button className="mr15" onClick={this.hideThird.bind(this)}>Cancel</Button>
-                        <Button type="primary" onClick={this.hideThird.bind(this)}>Next</Button>
-                    </div>
-                </Rodal>
+                    duration ='1500'
+                    >
+                        <p className="content-modal">Choose your language third</p>
+                        <div className="div-button">
+                            <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
+                            <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
+                        </div>
+                    </Rodal>
             </div>
         );
     }
