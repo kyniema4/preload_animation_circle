@@ -11,7 +11,7 @@ class AnimationCircle extends React.Component {
         super(props);
         this.state = {
             visible:false,
-            visibleFirst: false,
+            visibleFirst: true,
             visibleSecond: false,
             visibleThird: false,
             listItem:[],
@@ -47,7 +47,6 @@ class AnimationCircle extends React.Component {
             if(res.items.length)
             {
                 this.setState({listItem: res.items})
-                this.setData(res.items, this.state.currentIndex)
             }
             else
             {
@@ -58,6 +57,11 @@ class AnimationCircle extends React.Component {
             console.log(err)
             message.error(err.message || 'Error from server')
         })
+    }
+
+    clickStart(){
+        this.setState({visibleFirst:false})
+        this.setData(this.state.listItem, 0)
     }
 
     setData(array, index){
@@ -79,63 +83,64 @@ class AnimationCircle extends React.Component {
                             typeData = type
                         }
                     })
+
+                    console.log(dataValue)
+                    console.log(voiceValue)
+                    console.log(orderValue)
+
                     this.setState({currentItem: array[i], currentIndex:index, 
                         dataValue : dataValue.dataVal[typeData.name], voiceValue : voiceValue.dataVal
                         ,orderValue: orderValue.dataVal, typeData, visible:true})
                     break;
                 }
+
+              
             }
         }
-        console.log(this.state.dataValue)
-        console.log(this.state.voiceValue)
-        console.log(this.state.orderValue)
+      
     }
 
     nextModal(){
         this.setState({visible:false})
-        ++this.state.currentIndex
-        
         setTimeout(() => {
-            this.setData(this.state.listItem, this.state.currentIndex)
+            this.setData(this.state.listItem, this.state.currentIndex + 1)
         }, 500);
     }
 
-    // showFirst = () => {
-    //     this.setState({ visibleFirst: true });
-    // }
-    // showSecond = () => {
-    //     setTimeout((
-    //         this.setState({
-    //             visibleFirst: false,
-    //             visibleSecond: true
-    //         })
-    //     ), 5000);
-    // }
-    // showThird = () => {
-    //     setTimeout((
-    //         this.setState({
-    //             visibleSecond: false,
-    //             visibleThird: true
-    //         })
-    //     ), 5000);
-    // }
-
-    // hideThird = () => {
-    //     this.setState({ visibleThird: false });
-    // }
+    handleEnded()
+    {
+        if(this.state.dataValue.action_type === 'automatic')
+        {
+            this.nextModal()
+        }
+    }
 
     render() {
 
-        const { visible, currentItem, dataValue, voiceValue, orderValue } = this.state
+        const { visible, visibleFirst, currentItem, dataValue, voiceValue } = this.state
         return (
             <div className='container'>
-                <video autoPlay="autoplay" loop="loop" muted className='video' >
+                <video autoPlay="autoplay"  loop="loop" muted className='video' >
                     <source src={videoBg} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 <div className="div-loading">
                     <LoadingOutlined className="loading-icon" />
                 </div>
+
+                <Rodal
+                    height={200}
+                    width={400}
+                    visible={visibleFirst}
+                    showCloseButton={false}
+                    animation='slideUp'
+                    duration ='1500'
+                    >
+
+                    <div className="div-button">
+                        <Button className="mr15 right-btn" onClick={() => this.clickStart()}>Click to start</Button>
+                    </div>
+                    </Rodal>
                 
                 {currentItem ? (
                     <Rodal
@@ -147,6 +152,8 @@ class AnimationCircle extends React.Component {
                     duration ='1500'
                     >
 
+                    <audio autoPlay="autoplay" onEnded={() => this.handleEnded()} src={voiceValue}></audio>
+                    {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
                     {Array.isArray(dataValue.title) ? (
                         <p className="content-modal">{dataValue.title[0]}</p>
                     ) :(
@@ -154,56 +161,15 @@ class AnimationCircle extends React.Component {
                     )}
 
                     <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
-                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button>
+                        {dataValue.action ? (
+                            <Button className="mr15 left-btn" onClick={() => this.nextModal()}>{dataValue.action}</Button>
+                        ):''}
+
+                        {/* <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
+                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button> */}
                     </div>
                     </Rodal>
                 ): ''}
-
-                {/* <Rodal
-                    height={200}
-                    width={400}
-                    visible={this.state.visibleFirst}
-                    showCloseButton={false}
-                    animation='slideUp'
-                    duration ='1500'
-                >
-                    <p className="content-modal">Choose your language</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal>
-
-                <Rodal
-                    height = {200}
-                    width = {400}
-                    visible={this.state.visibleSecond}
-                    showCloseButton = {false}
-                    animation='slideUp'
-                    duration ='1500'
-                >
-                    <p className="content-modal">Choose your language second</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal>
-
-                <Rodal
-                    height = {200}
-                    width = {400}
-                    visible={this.state.visibleThird}
-                    showCloseButton = {false}
-                    animation='slideUp'
-                    duration ='1500'
-                    >
-                    <p className="content-modal">Choose your language third</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal> */}
             </div>
         );
     }
