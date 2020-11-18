@@ -174,7 +174,7 @@ class AnimationCircle extends React.Component {
                         ):''}
 
                         {dataValue.action_type === "manual" && typeData.value === 2 && dataValue.answer && dataValue.answer.map((item, index)=>(
-                            index%2 == 0 ? (
+                            index%2 === 0 ? (
                                 <Button key={index} className="mr15 left-btn" onClick={() => this.nextModal()}>{item.field}</Button>
                                 ):(
                                 <Button key={index} className="mr15 right-btn" onClick={() => this.nextModal()}>{item.field}</Button>
