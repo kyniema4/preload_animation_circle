@@ -45,3 +45,7 @@
   .mr15 {
     margin-right: 15px;
   }
+
+  .rodal-dialog {
+    background-image: url('../../assets/image/Window.png') !important;
+  }
