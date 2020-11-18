@@ -99,16 +99,6 @@ class AnimationCircle extends React.Component {
               
             }
         };
-          this.setState({
-            currentItem: array[i],
-            currentIndex: index,
-            dataValue: dataValue.dataVal[typeData.name],
-            voiceValue: voiceValue.dataVal,
-            orderValue: orderValue.dataVal,
-            typeData,
-            visible: true,
-          });
-          break;
         }
       
     
