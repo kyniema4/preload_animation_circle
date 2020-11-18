@@ -96,10 +96,23 @@ class AnimationCircle extends React.Component {
                         ,orderValue: orderValue.dataVal, typeData, visible:true, visibleLoading:false})
                     break;
                 }
+
+              
             }
+        };
+          this.setState({
+            currentItem: array[i],
+            currentIndex: index,
+            dataValue: dataValue.dataVal[typeData.name],
+            voiceValue: voiceValue.dataVal,
+            orderValue: orderValue.dataVal,
+            typeData,
+            visible: true,
+          });
+          break;
         }
       
-    }
+    
 
     nextModal(){
 
@@ -162,7 +175,7 @@ class AnimationCircle extends React.Component {
                     duration ='1500'
                     >
 
-                    <audio id="audio" autoPlay="autoplay" onEnded={() => this.handleEnded()} src={voiceValue}></audio>
+                    <audio autoPlay="autoplay" onEnded={() => this.handleEnded()} src={voiceValue}></audio>
                     {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
                     {Array.isArray(dataValue.title) ? (
                         <p className="content-modal">{dataValue.title[0]}</p>
@@ -175,13 +188,8 @@ class AnimationCircle extends React.Component {
                             <Button className="mr15 left-btn" onClick={() => this.nextModal()}>{dataValue.action}</Button>
                         ):''}
 
-                        {dataValue.action_type === "manual" && typeData.value === 2 && dataValue.answer && dataValue.answer.map((item, index)=>(
-                            index%2 == 0 ? (
-                                <Button key={index} className="mr15 left-btn" onClick={() => this.nextModal()}>{item.field}</Button>
-                                ):(
-                                <Button key={index} className="mr15 right-btn" onClick={() => this.nextModal()}>{item.field}</Button>
-                            )
-                        ))}
+                        {/* <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
+                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button> */}
                     </div>
                     </Rodal>
                 ): ''}
