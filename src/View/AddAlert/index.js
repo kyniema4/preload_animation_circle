@@ -29,7 +29,7 @@ class AnimationCircle extends React.Component {
                     name:"Type_Input",
                     value:3
                 }
-            ]
+            ],
         };
     }
     componentDidMount() {
@@ -86,14 +86,18 @@ class AnimationCircle extends React.Component {
                 }
             }
         }
-        console.log(this.state.typeData)
         console.log(this.state.dataValue)
         console.log(this.state.voiceValue)
         console.log(this.state.orderValue)
     }
 
-    closeModal(){
+    nextModal(){
         this.setState({visible:false})
+        ++this.state.currentIndex
+        
+        setTimeout(() => {
+            this.setData(this.state.listItem, this.state.currentIndex)
+        }, 500);
     }
 
     // showFirst = () => {
@@ -123,12 +127,6 @@ class AnimationCircle extends React.Component {
     render() {
 
         const { visible, currentItem, dataValue, voiceValue, orderValue } = this.state
-        console.log(currentItem)
-        if(dataValue)
-        {
-            console.log(dataValue)
-            console.log(Array.isArray(dataValue.title))
-        }
         return (
             <div className='container'>
                 <video autoPlay="autoplay" loop="loop" muted className='video' >
@@ -154,9 +152,10 @@ class AnimationCircle extends React.Component {
                     ) :(
                         <p className="content-modal">{dataValue.title}</p>
                     )}
+
                     <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={() => this.closeModal()}>English</Button>
-                        <Button className="right-btn" onClick={() => this.closeModal()}>Francais</Button>
+                        <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
+                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button>
                     </div>
                     </Rodal>
                 ): ''}
