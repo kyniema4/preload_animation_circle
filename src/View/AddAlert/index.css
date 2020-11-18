@@ -8,13 +8,30 @@
     height: 100%;
   }
 
+  .rodal-dialog {
+    background:transparent url('../../assets/image/Window.png') no-repeat center center/contain !important;
+    /* width: 300px !important;
+    height: 120px !important; */
+    width: 685px!important;
+    height: 188px!important;
+    box-shadow: unset!important;
+    padding: 35px!important;
+    top: 71%!important;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rodal-mask {
+    position: absolute;
+    background: transparent!important;
+  }
   .video {
-    height: auto;
     width: 100%;
-    float: left;
-    top: 0;
-    padding: unset;
+    top: 50%;
+    left: 0;
     position: fixed;
+    transform: translate(0%, -50%);
   }
   
   .div-loading {
@@ -34,12 +51,57 @@
     height: 45px;
   }
 
+  .content-modal {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 1.3vh;
+    margin: 0;
+  }
+
   .div-button {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: auto;
-    flex: 1;
+  }
+
+  .div-button .ant-btn{
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: 0;
+    padding: 0 65px;
+    height: 42px;
+    box-shadow: 0 2px 2px hsla(0, 0%, 0%, 0.2);
+  }
+
+  .div-button .left-btn:hover,
+  .div-button .left-btn:active,
+  .div-button .left-btn:focus {
+    color: white;
+    background-color: #106DE4;
+    box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.2);
+    border: unset;
+  }
+
+  .div-button .right-btn:hover,
+  .div-button .right-btn:active,
+  .div-button .right-btn:focus {
+    color: black;
+    box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.2);
+    border: unset;
+  }
+
+  .div-button .left-btn {
+    color: white;
+    background-color: #106DE4;
+  }
+
+  .div-button .right-btn {
+    color: black;
+    background-color: white;
+    /* border: 1px solid hsla(0, 0%, 0%, 0.2); */
   }
 
   .mr15 {
@@ -49,3 +111,34 @@
   .rodal-dialog {
     background-image: url('../../assets/image/Window.png') !important;
   }
+
+  @media (max-width: 1280px) {
+    .rodal-dialog {
+      top: 32%!important;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .rodal-dialog {
+      /* top: 10%!important; */
+      width: 450px !important;
+      height: 126px !important;
+      padding: 21px !important;
+    }
+
+    .content-modal {
+      font-size: 20px;
+      padding-top: 0.8vh;
+    }
+
+    .div-button .ant-btn{
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 0;
+      padding: 0 45px;
+      height: 35px;
+      box-shadow: 0 2px 2px hsla(0, 0%, 0%, 0.2);
+    }
+  }
+

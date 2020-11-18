@@ -1,5 +1,3 @@
-
-
 {
     "code": 200,
     "message": "OK",
@@ -107,7 +105,7 @@
                   "action_type": "manual",
                   "answer": [
                     {
-                      "field": "FranÃ§ais",
+                      "field": "FranĂ§ais",
                       "key": "lang",
                       "value": "fr"
                     },
