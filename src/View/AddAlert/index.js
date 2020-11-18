@@ -10,7 +10,6 @@ class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visibleLoading:false,
             visible:false,
             visibleFirst: true,
             visibleSecond: false,
@@ -39,7 +38,7 @@ class AnimationCircle extends React.Component {
     }
 
     getListData() {
-        this.setState({listItem:doc.data.items})
+        this.setState({listItem: doc.data.items})
         // fetch('http://localhost:3000/data',{
         //     method: 'GET',
         // }).then(res=>{
@@ -67,7 +66,7 @@ class AnimationCircle extends React.Component {
     }
 
     setData(array, index){
-        console.log(array)
+
         for(let i=index; i < array.length; i++)
         {
             if(array[i].data.length)
@@ -92,16 +91,13 @@ class AnimationCircle extends React.Component {
 
                     this.setState({currentItem: array[i], currentIndex:index, 
                         dataValue : dataValue.dataVal[typeData.name], voiceValue : voiceValue.dataVal
-                        ,orderValue: orderValue.dataVal, typeData, visible:true, visibleLoading:false})
+                        ,orderValue: orderValue.dataVal, typeData, visible:true})
                     break;
                 }
-
-              
             }
-        };
         }
       
-    
+    }
 
     nextModal(){
 
@@ -110,7 +106,7 @@ class AnimationCircle extends React.Component {
             document.getElementById('audio').pause()
         }
 
-        this.setState({visible:false, visibleLoading:true})
+        this.setState({visible:false})
         setTimeout(() => {
             this.setData(this.state.listItem, this.state.currentIndex + 1)
         }, 500);
@@ -126,19 +122,16 @@ class AnimationCircle extends React.Component {
 
     render() {
 
-        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData, visibleLoading } = this.state
+        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData } = this.state
         return (
             <div className='container'>
                 <video autoPlay="autoplay"  loop="loop" muted className='video' >
                     <source src={videoBg} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-
-                {visibleLoading ? (
-                    <div className="div-loading">
-                        <LoadingOutlined className="loading-icon" />
-                    </div>
-                ):''}
+                <div className="div-loading">
+                    <LoadingOutlined className="loading-icon" />
+                </div>
 
                 <Rodal
                     height={200}
@@ -164,7 +157,7 @@ class AnimationCircle extends React.Component {
                     duration ='1500'
                     >
 
-                    <audio autoPlay="autoplay" onEnded={() => this.handleEnded()} src={voiceValue}></audio>
+                    <audio id="audio" autoPlay="autoplay" onEnded={() => this.handleEnded()} src={voiceValue}></audio>
                     {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
                     {Array.isArray(dataValue.title) ? (
                         <p className="content-modal">{dataValue.title[0]}</p>
@@ -177,8 +170,13 @@ class AnimationCircle extends React.Component {
                             <Button className="mr15 left-btn" onClick={() => this.nextModal()}>{dataValue.action}</Button>
                         ):''}
 
-                        {/* <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
-                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button> */}
+                        {dataValue.action_type === "manual" && typeData.value === 2 && dataValue.answer && dataValue.answer.map((item, index)=>(
+                            index%2 == 0 ? (
+                                <Button key={index} className="mr15 left-btn" onClick={() => this.nextModal()}>{item.field}</Button>
+                                ):(
+                                <Button key={index} className="mr15 right-btn" onClick={() => this.nextModal()}>{item.field}</Button>
+                            )
+                        ))}
                     </div>
                     </Rodal>
                 ): ''}
