@@ -6,7 +6,6 @@ import Rodal from 'rodal';
 import videoBg from '../../assets/image/video.mp4';
 import { LoadingOutlined } from '@ant-design/icons';
 import doc from '../../doc.js'
-
 class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
