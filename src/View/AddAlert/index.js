@@ -5,7 +5,7 @@ import 'rodal/lib/rodal.css';
 import Rodal from 'rodal';
 import videoBg from '../../assets/image/video.mp4';
 import { LoadingOutlined } from '@ant-design/icons';
-
+import doc from '../../doc.js'
 class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
@@ -38,25 +38,27 @@ class AnimationCircle extends React.Component {
     }
 
     getListData() {
-        fetch('http://localhost:3000/data',{
-            method: 'GET',
-        }).then(res=>{
-            return res.json()
-        }).then(res=>{
+        this.setState({listItem: doc.data.items})
+        
+        // fetch('http://localhost:3000/data',{
+        //     method: 'GET',
+        // }).then(res=>{
+        //     return res.json()
+        // }).then(res=>{
 
-            if(res.items.length)
-            {
-                this.setState({listItem: res.items})
-            }
-            else
-            {
-                message.error('Error from server')
-            }
+        //     if(res.items.length)
+        //     {
+        //         this.setState({listItem: res.items})
+        //     }
+        //     else
+        //     {
+        //         message.error('Error from server')
+        //     }
            
-        }).catch(err=>{
-            console.log(err)
-            message.error(err.message || 'Error from server')
-        })
+        // }).catch(err=>{
+        //     console.log(err)
+        //     message.error(err.message || 'Error from server')
+        // })
     }
 
     clickStart(){
