@@ -5,6 +5,7 @@ import 'rodal/lib/rodal.css';
 import Rodal from 'rodal';
 import videoBg from '../../assets/image/video.mp4';
 import { LoadingOutlined } from '@ant-design/icons';
+import data from '../../doc.json'
 
 class AnimationCircle extends React.Component {
     constructor(props) {
@@ -13,9 +14,11 @@ class AnimationCircle extends React.Component {
             visibleFirst: false,
             visibleSecond: false,
             visibleThird: false,
+            listItem:data.data.items
         };
     }
-    componentDidMount(){
+    componentDidMount() {
+        console.log(this.state.listItem)
         setTimeout(this.showFirst, 10000);
     }
 
@@ -24,25 +27,25 @@ class AnimationCircle extends React.Component {
     }
     showSecond = () => {
         setTimeout((
-            this.setState({ 
+            this.setState({
                 visibleFirst: false,
                 visibleSecond: true
-              })
+            })
         ), 5000);
     }
     showThird = () => {
         setTimeout((
-            this.setState({ 
+            this.setState({
                 visibleSecond: false,
                 visibleThird: true
-             })
+            })
         ), 5000);
     }
-    
+
     hideThird = () => {
         this.setState({ visibleThird: false });
     }
-    
+
     render() {
         return (
             <div className='container'>
@@ -52,16 +55,17 @@ class AnimationCircle extends React.Component {
                 </video>
                 <p>dkjfhjk</p>
                 <div className="div-loading">
-                    <LoadingOutlined className="loading-icon"/>
+                    <LoadingOutlined className="loading-icon" />
                 </div>
+
                 <Rodal
-                    height = {200}
-                    width = {400}
+                    height={200}
+                    width={400}
                     visible={this.state.visibleFirst}
-                    showCloseButton = {false}
+                    showCloseButton={false}
                     animation='slideUp'
-                    duration ='1500'
-                    customStyles = {{top: '60vh', display: 'flex'}}
+                    duration='1500'
+                    customStyles={{ top: '60vh', display: 'flex' }}
                 >
                     <div>Content First</div>
                     <div className="div-button">
@@ -71,36 +75,36 @@ class AnimationCircle extends React.Component {
                 </Rodal>
 
                 <Rodal
-                height = {200}
-                width = {400}
-                visible={this.state.visibleSecond}
-                showCloseButton = {false}
-                animation='slideUp'
-                duration ='1500'
-                customStyles = {{top: '60vh', display: 'flex'}}
-            >
-                <div>Content Second</div>
-                <div className="div-button">
-                    <Button className="mr15" onClick={this.showThird.bind(this)}>Cancel</Button>
-                    <Button type="primary" onClick={this.showThird}>Next</Button>
-                </div>
-            </Rodal>
+                    height={200}
+                    width={400}
+                    visible={this.state.visibleSecond}
+                    showCloseButton={false}
+                    animation='slideUp'
+                    duration='1500'
+                    customStyles={{ top: '60vh', display: 'flex' }}
+                >
+                    <div>Content Second</div>
+                    <div className="div-button">
+                        <Button className="mr15" onClick={this.showThird.bind(this)}>Cancel</Button>
+                        <Button type="primary" onClick={this.showThird}>Next</Button>
+                    </div>
+                </Rodal>
 
                 <Rodal
-                    height = {200}
-                    width = {400}
+                    height={200}
+                    width={400}
                     visible={this.state.visibleThird}
-                    showCloseButton = {false}
+                    showCloseButton={false}
                     animation='slideUp'
-                    duration ='1500'
-                    customStyles = {{top: '60vh', display: 'flex'}}
+                    duration='1500'
+                    customStyles={{ top: '60vh', display: 'flex' }}
                 >
                     <div>Content Third</div>
-                     <div className="div-button">
+                    <div className="div-button">
                         <Button className="mr15" onClick={this.hideThird.bind(this)}>Cancel</Button>
                         <Button type="primary" onClick={this.hideThird.bind(this)}>Next</Button>
                     </div>
-                </Rodal> 
+                </Rodal>
             </div>
         );
     }
