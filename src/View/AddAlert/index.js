@@ -5,11 +5,13 @@ import 'rodal/lib/rodal.css';
 import Rodal from 'rodal';
 import videoBg from '../../assets/image/video.mp4';
 import { LoadingOutlined } from '@ant-design/icons';
+import doc from '../../doc.js'
 
 class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            visibleLoading:false,
             visible:false,
             visibleFirst: true,
             visibleSecond: false,
@@ -38,25 +40,26 @@ class AnimationCircle extends React.Component {
     }
 
     getListData() {
-        fetch('http://localhost:3000/data',{
-            method: 'GET',
-        }).then(res=>{
-            return res.json()
-        }).then(res=>{
+        this.setState({listItem:doc.data.items})
+        // fetch('http://localhost:3000/data',{
+        //     method: 'GET',
+        // }).then(res=>{
+        //     return res.json()
+        // }).then(res=>{
 
-            if(res.items.length)
-            {
-                this.setState({listItem: res.items})
-            }
-            else
-            {
-                message.error('Error from server')
-            }
+        //     if(res.items.length)
+        //     {
+        //         this.setState({listItem: res.items})
+        //     }
+        //     else
+        //     {
+        //         message.error('Error from server')
+        //     }
            
-        }).catch(err=>{
-            console.log(err)
-            message.error(err.message || 'Error from server')
-        })
+        // }).catch(err=>{
+        //     console.log(err)
+        //     message.error(err.message || 'Error from server')
+        // })
     }
 
     clickStart(){
@@ -65,7 +68,7 @@ class AnimationCircle extends React.Component {
     }
 
     setData(array, index){
-
+        console.log(array)
         for(let i=index; i < array.length; i++)
         {
             if(array[i].data.length)
@@ -90,7 +93,7 @@ class AnimationCircle extends React.Component {
 
                     this.setState({currentItem: array[i], currentIndex:index, 
                         dataValue : dataValue.dataVal[typeData.name], voiceValue : voiceValue.dataVal
-                        ,orderValue: orderValue.dataVal, typeData, visible:true})
+                        ,orderValue: orderValue.dataVal, typeData, visible:true, visibleLoading:false})
                     break;
                 }
             }
@@ -105,7 +108,7 @@ class AnimationCircle extends React.Component {
             document.getElementById('audio').pause()
         }
 
-        this.setState({visible:false})
+        this.setState({visible:false, visibleLoading:true})
         setTimeout(() => {
             this.setData(this.state.listItem, this.state.currentIndex + 1)
         }, 500);
@@ -121,16 +124,19 @@ class AnimationCircle extends React.Component {
 
     render() {
 
-        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData } = this.state
+        const { visible, visibleFirst, currentItem, dataValue, voiceValue, typeData, visibleLoading } = this.state
         return (
             <div className='container'>
                 <video autoPlay="autoplay"  loop="loop" muted className='video' >
                     <source src={videoBg} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-                <div className="div-loading">
-                    <LoadingOutlined className="loading-icon" />
-                </div>
+
+                {visibleLoading ? (
+                    <div className="div-loading">
+                        <LoadingOutlined className="loading-icon" />
+                    </div>
+                ):''}
 
                 <Rodal
                     height={200}
