@@ -11,7 +11,7 @@ class AnimationCircle extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      visibleFirst: false,
+      visibleFirst: true,
       visibleSecond: false,
       visibleThird: false,
       listItem: [],
@@ -32,7 +32,6 @@ class AnimationCircle extends React.Component {
       ],
     };
   }
-
   componentDidMount() {
     this.getListData();
     // setTimeout(this.showFirst, 10000);
@@ -48,7 +47,6 @@ class AnimationCircle extends React.Component {
       .then((res) => {
         if (res.items.length) {
           this.setState({ listItem: res.items });
-          this.setData(res.items, this.state.currentIndex);
         } else {
           message.error("Error from server");
         }
@@ -57,6 +55,11 @@ class AnimationCircle extends React.Component {
         console.log(err);
         message.error(err.message || "Error from server");
       });
+  }
+
+  clickStart() {
+    this.setState({ visibleFirst: false });
+    this.setData(this.state.listItem, 0);
   }
 
   setData(array, index) {
@@ -68,12 +71,16 @@ class AnimationCircle extends React.Component {
 
         if (dataValue || voiceValue || orderValue) {
           let typeData;
-
           this.state.arrayTypeData.forEach((type) => {
             if (dataValue.dataVal[type.name]) {
               typeData = type;
             }
           });
+
+          console.log(dataValue);
+          console.log(voiceValue);
+          console.log(orderValue);
+
           this.setState({
             currentItem: array[i],
             currentIndex: index,
@@ -87,44 +94,30 @@ class AnimationCircle extends React.Component {
         }
       }
     }
-    // console.log(this.state.dataValue);
-    // console.log(this.state.voiceValue);
-    // console.log(this.state.orderValue);
-    console.log(this.state.typeData);
   }
 
   nextModal() {
     this.setState({ visible: false });
-    ++this.state.currentIndex;
-
     setTimeout(() => {
-      this.setData(this.state.listItem, this.state.currentIndex);
+      this.setData(this.state.listItem, this.state.currentIndex + 1);
     }, 500);
   }
 
-  handleTest = () => {
-    console.log("abcaas");
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.handleTest();
-      }
-    });
-  };
+  handleEnded() {
+    if (this.state.dataValue.action_type === "automatic") {
+      this.nextModal();
+    }
+  }
 
   render() {
     const {
       visible,
+      visibleFirst,
       currentItem,
       dataValue,
       voiceValue,
-      orderValue,
-      typeData,
+      typeData
     } = this.state;
-    const { getFieldDecorator } = this.props.form;
     return (
       <div className="container">
         <video autoPlay="autoplay" loop="loop" muted className="video">
@@ -135,6 +128,24 @@ class AnimationCircle extends React.Component {
           <LoadingOutlined className="loading-icon" />
         </div>
 
+        <Rodal
+          height={200}
+          width={400}
+          visible={visibleFirst}
+          showCloseButton={false}
+          animation="slideUp"
+          duration="1500"
+        >
+          <div className="div-button">
+            <Button
+              className="mr15 right-btn"
+              onClick={() => this.clickStart()}
+            >
+              Click to start
+            </Button>
+          </div>
+        </Rodal>
+
         {currentItem ? (
           <Rodal
             height={200}
@@ -144,20 +155,28 @@ class AnimationCircle extends React.Component {
             animation="slideUp"
             duration="1500"
           >
+            <audio
+              autoPlay="autoplay"
+              onEnded={() => this.handleEnded()}
+              src={voiceValue}
+            ></audio>
+            {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
             {Array.isArray(dataValue.title) ? (
               <p className="content-modal">{dataValue.title[0]}</p>
             ) : (
               <p className="content-modal">{dataValue.title}</p>
             )}
-
             {typeData.value === 3 ? (
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Item label="Note">
-                  {getFieldDecorator("note", {
-                    rules: [
-                      { required: true, message: "Please input your note!" },
-                    ],
-                  })(<Input />)}
+              <Form >
+                <Form.Item
+                  name="note"
+                  label="Note"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                ><Input />
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
                   <Button type="primary" htmlType="submit">
@@ -169,70 +188,25 @@ class AnimationCircle extends React.Component {
               ""
             )}
 
-            {typeData.value !== 3 ? (
-              <div className="div-button">
+            <div className="div-button">
+              {dataValue.action ? (
                 <Button
                   className="mr15 left-btn"
                   onClick={() => this.nextModal()}
                 >
-                  English
+                  {dataValue.action}
                 </Button>
-                <Button className="right-btn" onClick={() => this.nextModal()}>
-                  Francais
-                </Button>
-              </div>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
+
+              {/* <Button className="mr15 left-btn" onClick={() => this.nextModal()}>English</Button>
+                        <Button className="right-btn" onClick={() => this.nextModal()}>Francais</Button> */}
+            </div>
           </Rodal>
         ) : (
           ""
         )}
-
-        {/* <Rodal
-                    height={200}
-                    width={400}
-                    visible={this.state.visibleFirst}
-                    showCloseButton={false}
-                    animation='slideUp'
-                    duration ='1500'
-                >
-                    <p className="content-modal">Choose your language</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal>
-
-                <Rodal
-                    height = {200}
-                    width = {400}
-                    visible={this.state.visibleSecond}
-                    showCloseButton = {false}
-                    animation='slideUp'
-                    duration ='1500'
-                >
-                    <p className="content-modal">Choose your language second</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal>
-
-                <Rodal
-                    height = {200}
-                    width = {400}
-                    visible={this.state.visibleThird}
-                    showCloseButton = {false}
-                    animation='slideUp'
-                    duration ='1500'
-                    >
-                    <p className="content-modal">Choose your language third</p>
-                    <div className="div-button">
-                        <Button className="mr15 left-btn" onClick={this.showSecond.bind(this)}>English</Button>
-                        <Button className="right-btn" onClick={this.showSecond}>Francais</Button>
-                    </div>
-                </Rodal> */}
       </div>
     );
   }
