@@ -6,7 +6,6 @@ import Rodal from "rodal";
 import videoBg from "../../assets/image/video.mp4";
 import { LoadingOutlined } from "@ant-design/icons";
 import doc from "../../doc.js";
-import { FormInstance } from 'antd/lib/form';
 class AnimationCircle extends React.Component {
 
     formRef = React.createRef();
@@ -106,7 +105,7 @@ class AnimationCircle extends React.Component {
             }
         }
 
-        if(i == array.length)
+        if(i === array.length)
         {
             console.log(this.state.arrayAnswer)
             this.setState({visibleLoading: false})
@@ -142,7 +141,7 @@ class AnimationCircle extends React.Component {
     }
 
     onSubmit(){
-        if(this.state.typeData.value == 3)
+        if(this.state.typeData.value === 3)
         {
             this.formRef.current.validateFields().then(data=>{
                 let answer = {itemId: this.state.currentItem.itemId, type: this.state.typeData.name, answer:data}
