@@ -6,7 +6,10 @@ import Rodal from "rodal";
 import videoBg from "../../assets/image/video.mp4";
 import { LoadingOutlined } from "@ant-design/icons";
 import doc from "../../doc.js";
+import { FormInstance } from 'antd/lib/form';
 class AnimationCircle extends React.Component {
+
+    formRef = React.createRef();
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +34,7 @@ class AnimationCircle extends React.Component {
                     value: 3
                 }
             ],
+            arrayAnswer:[]
         };
     }
     componentDidMount() {
@@ -69,7 +73,7 @@ class AnimationCircle extends React.Component {
     }
 
     setData(array, index) {
-        for (let i = index; i < array.length; i++) {
+        for (var i = index; i < array.length; i++) {
             if (array[i].data.length) {
                 let dataValue = array[i].data.find((item) => item.dataKey === "Data");
                 let voiceValue = array[i].data.find((item) => item.dataKey === "Voice");
@@ -101,6 +105,13 @@ class AnimationCircle extends React.Component {
                 }
             }
         }
+
+        if(i == array.length)
+        {
+            console.log(this.state.arrayAnswer)
+            this.setState({visibleLoading: false})
+            alert(JSON.stringify(this.state.arrayAnswer))
+        }
     }
 
     nextModal() {
@@ -120,6 +131,33 @@ class AnimationCircle extends React.Component {
         }
     }
 
+    handlingChoice(data){
+        let answer = {itemId: this.state.currentItem.itemId, type: this.state.typeData.name, answer:data}
+        this.pushData(answer)
+    }
+
+    pushData(answer){
+        this.state.arrayAnswer.push(answer)
+        this.nextModal()
+    }
+
+    onSubmit(){
+        if(this.state.typeData.value == 3)
+        {
+            this.formRef.current.validateFields().then(data=>{
+                let answer = {itemId: this.state.currentItem.itemId, type: this.state.typeData.name, answer:data}
+                this.pushData(answer)
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+        else
+        {
+            this.nextModal()
+        }
+      
+    }
+
     render() {
         const {
             visible,
@@ -134,8 +172,8 @@ class AnimationCircle extends React.Component {
             <div className="container">
                 <video autoPlay="autoplay" loop="loop" muted className="video">
                     <source src={videoBg} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+                Your browser does not support the video tag.
+                </video>
                 {visibleLoading ? (
                     <div className="div-loading">
                         <LoadingOutlined className="loading-icon" />
@@ -158,7 +196,7 @@ class AnimationCircle extends React.Component {
                             onClick={() => this.clickStart()}
                         >
                             Click to start
-            </Button>
+                        </Button>
                     </div>
                 </Rodal>
 
@@ -177,23 +215,25 @@ class AnimationCircle extends React.Component {
                             onEnded={() => this.handleEnded()}
                             src={voiceValue}
                         ></audio>
-                        {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
+
                         {Array.isArray(dataValue.title) ? (
                             <p className="content-modal">{dataValue.title[0]}</p>
                         ) : (
                                 <p className="content-modal">{dataValue.title}</p>
                             )}
                         {typeData.value === 3 ? (
-                            <Form style={{ padding: 10 }}>
+                            <Form ref={this.formRef} style={{ padding: 10 }}>
                                 <Form.Item
                                     className="ant-form-item"
+                                    name="answer"
                                     rules={[
                                         {
                                             required: true,
+                                            message: 'Please input answer!'
                                         },
                                     ]}
                                 >
-                                    <Input />
+                                    <Input/>
                                 </Form.Item>
                             </Form>
                         ) : (
@@ -204,7 +244,7 @@ class AnimationCircle extends React.Component {
                             {dataValue.action ? (
                                 <Button
                                     className="mr15 left-btn"
-                                    onClick={() => this.nextModal()}
+                                    onClick={() => this.onSubmit()}
                                 >
                                     {dataValue.action}
                                 </Button>
@@ -212,15 +252,30 @@ class AnimationCircle extends React.Component {
                                     ""
                                 )}
 
+                            {dataValue.action_type==="automatic" ? (
+                                <Button className="left-btn" onClick={() => this.nextModal()}>Skip</Button>
+                            ):''}
+
                             {dataValue.action_type === "manual" &&
                                 typeData.value === 2 &&
                                 dataValue.answer &&
                                 dataValue.answer.map((item, index) =>
-                                    index % 2 === 0 ? (
+
+                                    dataValue.answer.length > 2 ? 
+                                    (
                                         <Button
                                             key={index}
                                             className="mr15 left-btn"
-                                            onClick={() => this.nextModal()}
+                                            onClick={() => this.handlingChoice(item)}
+                                        >
+                                            {item.field}
+                                        </Button>
+                                    )
+                                    :index % 2 === 0 ? (
+                                        <Button
+                                            key={index}
+                                            className="mr15 left-btn"
+                                            onClick={() => this.handlingChoice(item)}
                                         >
                                             {item.field}
                                         </Button>
@@ -228,7 +283,7 @@ class AnimationCircle extends React.Component {
                                             <Button
                                                 key={index}
                                                 className="mr15 right-btn"
-                                                onClick={() => this.nextModal()}
+                                                onClick={() => this.handlingChoice(item)}
                                             >
                                                 {item.field}
                                             </Button>
