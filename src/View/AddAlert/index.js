@@ -154,154 +154,159 @@ class AnimationCircle extends React.Component {
         {
             this.nextModal()
         }
-      
+
     }
 
     onClose(){
         console.log(1)
     }
+  render() {
+    const {
+      visible,
+      visibleFirst,
+      currentItem,
+      dataValue,
+      voiceValue,
+      typeData,
+      visibleLoading,
+    } = this.state;
+    return (
+      <div className="container">
+          <video
+              autoPlay="autoplay"
+              loop="loop"
+              preload="yes"
+              playsInline
+              muted={true}
+              className="video">
+              <source src={videoBg} type="video/mp4" />
+              Your browser does not support the video tag.
+          </video>
+          {visibleLoading ? (
+              <div className="div-loading">
+                  <LoadingOutlined className="loading-icon" />
+              </div>
+          ) : (
+              ""
+          )}
 
-    render() {
-        const {
-            visible,
-            visibleFirst,
-            currentItem,
-            dataValue,
-            voiceValue,
-            typeData,
-            visibleLoading,
-        } = this.state;
-        return (
-            <div className="container">
-                <video autoPlay="autoplay" loop="loop" muted className="video">
-                    <source src={videoBg} type="video/mp4" />
-                Your browser does not support the video tag.
-                </video>
-                {visibleLoading ? (
-                    <div className="div-loading">
-                        <LoadingOutlined className="loading-icon" />
-                    </div>
-                ) : (
-                        ""
-                    )}
-
-                <Rodal
-                    height={200}
-                    width={400}
-                    visible={visibleFirst}
-                    showCloseButton={false}
-                    animation="slideUp"
-                    duration={1500}
-                    onClose={()=>this.onClose()}
-                >
-                    <div className="div-button">
-                        <Button
-                            className="mr15 right-btn"
-                            onClick={() => this.clickStart()}
-                        >
-                            Click to start
-                        </Button>
-                    </div>
-                </Rodal>
-
-                {currentItem ? (
-                    <Rodal
-                        height={200}
-                        width={400}
-                        visible={visible}
-                        showCloseButton={false}
-                        animation="slideUp"
-                        duration={1500}
-                        onClose={()=>this.onClose()}
+        <Rodal
+          height={200}
+          width={400}
+          visible={visibleFirst}
+          showCloseButton={false}
+          animation="slideUp"
+          duration="1500"
+          onClose={()=>this.onClose()}
+        >
+            <div className="m-auto">
+                <div className="div-button">
+                    <Button
+                        className="right-btn"
+                        onClick={() => this.clickStart()}
                     >
-                        <audio
-                            id="audio"
-                            autoPlay="autoplay"
-                            onEnded={() => this.handleEnded()}
-                            src={voiceValue}
-                        ></audio>
-
-                        {Array.isArray(dataValue.title) ? (
-                            <p className="content-modal">{dataValue.title[0]}</p>
-                        ) : (
-                                <p className="content-modal">{dataValue.title}</p>
-                            )}
-                        {typeData.value === 3 ? (
-                            <Form ref={this.formRef} style={{ padding: 10 }}>
-                                <Form.Item
-                                    className="ant-form-item"
-                                    name="answer"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input answer!'
-                                        },
-                                    ]}
-                                >
-                                    <Input/>
-                                </Form.Item>
-                            </Form>
-                        ) : (
-                                ""
-                            )}
-
-                        <div className="div-button">
-                            {dataValue.action ? (
-                                <Button
-                                    className="mr15 left-btn"
-                                    onClick={() => this.onSubmit()}
-                                >
-                                    {dataValue.action}
-                                </Button>
-                            ) : (
-                                    ""
-                                )}
-
-                            {dataValue.action_type==="automatic" ? (
-                                <Button className="left-btn" onClick={() => this.nextModal()}>Skip</Button>
-                            ):''}
-
-                            {dataValue.action_type === "manual" &&
-                                typeData.value === 2 &&
-                                dataValue.answer &&
-                                dataValue.answer.map((item, index) =>
-
-                                    dataValue.answer.length > 2 ? 
-                                    (
-                                        <Button
-                                            key={index}
-                                            className="mr15 left-btn"
-                                            onClick={() => this.handlingChoice(item)}
-                                        >
-                                            {item.field}
-                                        </Button>
-                                    )
-                                    :index % 2 === 0 ? (
-                                        <Button
-                                            key={index}
-                                            className="mr15 left-btn"
-                                            onClick={() => this.handlingChoice(item)}
-                                        >
-                                            {item.field}
-                                        </Button>
-                                    ) : (
-                                            <Button
-                                                key={index}
-                                                className="mr15 right-btn"
-                                                onClick={() => this.handlingChoice(item)}
-                                            >
-                                                {item.field}
-                                            </Button>
-                                        )
-                                )}
-                        </div>
-                    </Rodal>
-                ) : (
-                        ""
-                    )}
+                        Click to start
+                    </Button>
+                </div>
             </div>
-        );
-    }
+        </Rodal>
+
+        {currentItem ? (
+          <Rodal
+            height={200}
+            width={400}
+            visible={visible}
+            showCloseButton={false}
+            animation="slideUp"
+            duration="1500"
+            onClose={()=>this.onClose()}
+          >
+            <audio
+              id="audio"
+              autoPlay="autoplay"
+              onEnded={() => this.handleEnded()}
+              src={voiceValue}
+            ></audio>
+            {/* <iframe title='iframe' allow="autoplay" src={voiceValue} style={{display: 'none'}} ></iframe> */}
+              <div className="m-auto">
+                  <div className="mb15">
+                      {Array.isArray(dataValue.title) ? (
+                          <p className="content-modal">{dataValue.title[0]}</p>
+                      ) : (
+                          <p className="content-modal">{dataValue.title}</p>
+                      )}
+                      {typeData.value === 3 ? (
+                          <Form ref={this.formRef} className="form-style">
+                              <Form.Item
+                                  className="ant-form-item"
+                                  name="answer"
+                                  rules={[
+                                      {
+                                          required: true,
+                                          message: 'Please input answer!'
+                                      },
+                                  ]}
+                              >
+                                  <Input/>
+                              </Form.Item>
+                          </Form>
+                      ) : (
+                          ""
+                      )}
+                  </div>
+
+            <div className="div-button">
+              {dataValue.action ? (
+                <Button
+                  className="left-btn"
+                  onClick={() => this.onSubmit()}
+                >
+                  {dataValue.action}
+                </Button>
+              ) : (
+                ""
+              )}
+
+              {dataValue.action_type === "manual" &&
+                typeData.value === 2 &&
+                dataValue.answer &&
+                dataValue.answer.map((item, index) =>
+                    dataValue.answer.length > 2 ?
+                    (
+                    <Button
+                      key={index}
+                      className="left-btn"
+                      onClick={() => this.handlingChoice(item)}
+                    >
+                      {item.field}
+                    </Button>
+                  ) :index % 2 === 0 ? (
+                    <Button
+                      key={index}
+                      className="right-btn"
+                      onClick={() => this.handlingChoice(item)}
+                    >
+                      {item.field}
+                    </Button>
+                  ) : (
+                            <Button
+                                key={index}
+                                className="right-btn"
+                                onClick={() => this.handlingChoice(item)}
+                            >
+                                {item.field}
+                            </Button>
+                        )
+                )}
+                </div>
+              </div>
+          </Rodal>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
 }
 
 export default AnimationCircle;
