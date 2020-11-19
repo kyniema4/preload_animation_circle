@@ -10,9 +10,9 @@ class AnimationCircle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visibleLoading:false,
+            visibleLoading:true,
             visible:false,
-            visibleFirst: true,
+            visibleFirst: false,
             visibleSecond: false,
             visibleThird: false,
             listItem:[],
@@ -34,12 +34,14 @@ class AnimationCircle extends React.Component {
         };
     }
     componentDidMount() {
-        this.getListData()
+        setTimeout(() => {
+            this.getListData()
+        }, 1000);
         // setTimeout(this.showFirst, 10000);
     }
 
     getListData() {
-        this.setState({listItem: doc.data.items})
+        this.setState({listItem: doc.data.items, visibleLoading:false, visibleFirst:true})
         // fetch('http://localhost:3000/data',{
         //     method: 'GET',
         // }).then(res=>{
