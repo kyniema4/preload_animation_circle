@@ -196,7 +196,7 @@ class AnimationCircle extends React.Component {
           visible={visibleFirst}
           showCloseButton={false}
           animation="slideUp"
-          duration="1500"
+          duration={1500}
           onClose={()=>this.onClose()}
         >
             <div className="m-auto">
@@ -218,7 +218,7 @@ class AnimationCircle extends React.Component {
             visible={visible}
             showCloseButton={false}
             animation="slideUp"
-            duration="1500"
+            duration={1500}
             onClose={()=>this.onClose()}
           >
             <audio
