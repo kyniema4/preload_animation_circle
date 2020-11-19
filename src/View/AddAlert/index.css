@@ -103,7 +103,9 @@
     background-color: white;
     /* border: 1px solid hsla(0, 0%, 0%, 0.2); */
   }
-
+  .ant-form-item {
+    margin-bottom: 0;
+  }
   .mr15 {
     margin-right: 15px;
   }
