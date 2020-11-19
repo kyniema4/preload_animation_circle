@@ -59,7 +59,7 @@
   }
 
   .form-style {
-    padding: 10px 20%!important;
+    padding: 0 20%!important;
   }
 
   .form-style .ant-form-item {
@@ -154,12 +154,16 @@
     .rodal-dialog {
       top: 15%!important;
       width: 100%!important;
-      height: 17%!important;
+      height: 28vw!important;
       padding: 3.5% 3.5% 1% 3.5%!important;
     }
 
     .content-modal {
       font-size: 1.2rem;
+    }
+
+    .div-button .ant-btn{
+      min-width: 25%;
     }
   }
   @media screen and (max-width: 560px) {
