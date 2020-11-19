@@ -267,6 +267,10 @@ class AnimationCircle extends React.Component {
                 ""
               )}
 
+                {dataValue.action_type==="automatic" ? (
+                    <Button className="left-btn" onClick={() => this.nextModal()}>Skip</Button>
+                ):''}
+
               {dataValue.action_type === "manual" &&
                 typeData.value === 2 &&
                 dataValue.answer &&
